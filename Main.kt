@@ -12,8 +12,12 @@ class CodeGenerator {
                 field = value
         }
 
-    fun updateCodeLength(length: Int) {
-        codeLength = length
+    fun updateCodeLength(length: String) {
+        try {
+            codeLength = length.toInt()
+        } catch (e: NumberFormatException) {
+            println("Error: \"$length\" isn't a valid number.")
+        }
     }
 
     private fun generateSymbols(quantity: Int): Set<Char> {
@@ -75,10 +79,12 @@ class Game {
 
     fun play() {
         println("Input the length of the secret code:")
-        generator.updateCodeLength(readln().toInt())
+        val lengthCodeInput = readln()
+        generator.updateCodeLength(lengthCodeInput)
 
         println("Input the number of possible symbols in the code:")
         val possibleSymbols = readln().toInt()
+
         generator.generateSecretCode(possibleSymbols)
         println("Okay, let's start a game!")
 
@@ -94,8 +100,6 @@ class Game {
         } while (true)
     }
 }
-
-
 
 fun main() {
     val partida = Game()
